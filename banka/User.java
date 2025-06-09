@@ -68,22 +68,55 @@ public class User {
         return super.toString();
     }
 
-    public  void payment(double amount, int id_account1, int id_account2, List<Account> accounts) {
+    public void paytoaccount(List<Account> accounts, double amount, int id_account2) {
+        Account b=FindAccount(accounts, id_account2);
+        b.setCurrent_balance(b.getCurrent_balance() + amount);
+    }
+
+
+
+    public Account FindAccount (List<Account> accounts, int id_account) {
         for (Account a : accounts) {
-            if (a.getId_account() == id_account1 && a.getCurrent_balance()>=amount) {
-                a.setCurrent_balance(a.getCurrent_balance()-amount);
+            if (a.getId_account() == id_account)
+                return a;
+        }
+        System.out.println("GRESKA: Ne postoji takav broj racuna");
+        return null;
+    }
+
+    public CList FindCurr (List<CList> clist, Type typeocur) {
+
+        for (CList c : clist) {
+            if (c.getType() == typeocur)
+                return c;
+        }
+
+        return null;
+
+    }
+
+
+    public  void payment(double amount, int id_account1, int id_account2, List<Account> accounts, Type typeocur, List<CList> clist) {
+        Account a = FindAccount(accounts, id_account1);
+        if( a.getType() == typeocur) {
+            if (a.getCurrent_balance() >= amount) {
+                a.setCurrent_balance(a.getCurrent_balance() - amount);
             }
             else
                 System.out.println("nemate dovoljno sredstava na racunu");
-            for (Account b : accounts) {
-                if (b.getId_account() == id_account2) {
-                    b.setCurrent_balance(b.getCurrent_balance()+amount);
-                }
-
-
-            }
-
         }
+        else
+        {
+            CList c = FindCurr(clist, typeocur);
+            amount = amount * c.getSell();
+            if (a.getCurrent_balance() >= amount) {
+                a.setCurrent_balance(a.getCurrent_balance() - amount);
+                paytoaccount(accounts, amount / c.getSell(), id_account2);
+            }
+            else
+                System.out.println("nemate dovoljno sredstava na racunu");
+        }
+
     }
 
 

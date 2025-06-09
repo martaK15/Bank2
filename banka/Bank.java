@@ -60,7 +60,6 @@ public class Bank {
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public String toString() {return super.toString();
     }
 }
