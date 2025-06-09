@@ -138,17 +138,16 @@ public class User {
              Account a=FindAccount(accounts, id_account);
             if ( a.getType().equals(type)) {
                 if(a.getCurrent_balance()>=amount)
-                a.setCurrent_balance(a.getCurrent_balance()-amount);
+                    a.setCurrent_balance(a.getCurrent_balance() - amount);
                 else
-                    System.out.println("nemate dovoljno sredstava na racunu");
+                    System.out.println("You don't have enough balance");
             }
             else
             {
                 CList c=FindCurr(clist, type);
                 amount = convertSell(amount,clist,type);
                 if (a.getCurrent_balance()>=amount) {
-                    paytoaccount(a, amount, id_account);
-                    //a.setCurrent_balance(a.getCurrent_balance()-amount);
+                    a.setCurrent_balance(a.getCurrent_balance()-amount);
                 }
             }
         }
