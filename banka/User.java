@@ -68,8 +68,8 @@ public class User {
         return super.toString();
     }
 
-    public void paytoaccount(List<Account> accounts, double amount, int id_account2) {
-        Account b=FindAccount(accounts, id_account2);
+    public void paytoaccount(Account b, double amount, int id_account2) {
+       // Account b=FindAccount(accounts, id_account2);
         b.setCurrent_balance(b.getCurrent_balance() + amount);
     }
 
@@ -80,7 +80,7 @@ public class User {
             if (a.getId_account() == id_account)
                 return a;
         }
-        System.out.println("GRESKA: Ne postoji takav broj racuna");
+        System.out.println("ERROR: Account doesn't exist");
         return null;
     }
 
@@ -90,15 +90,29 @@ public class User {
             if (c.getType() == typeocur)
                 return c;
         }
-
+        System.out.println("ERROR: value doesn't exist");
         return null;
 
     }
 
+    public double convertSell(double amount, List<CList> clist, Type typeOfCurr) {
 
-    public  void payment(double amount, int id_account1, int id_account2, List<Account> accounts, Type typeocur, List<CList> clist) {
+        CList c = FindCurr(clist, typeOfCurr);
+        amount = amount * c.getSell();
+        return amount;
+    }
+
+    public double convertBuy(double amount, List<CList> clist, Type typeOfCurr)
+    {
+
+        CList c = FindCurr(clist, typeOfCurr);
+        amount = amount / c.getBuy();
+        return amount;
+    }
+
+    public  void payment(double amount, int id_account1, int id_account2, List<Account> accounts, Type typeOfCurr, List<CList> clist) {
         Account a = FindAccount(accounts, id_account1);
-        if( a.getType() == typeocur) {
+        if( a.getType() == typeOfCurr) {
             if (a.getCurrent_balance() >= amount) {
                 a.setCurrent_balance(a.getCurrent_balance() - amount);
             }
@@ -107,11 +121,10 @@ public class User {
         }
         else
         {
-            CList c = FindCurr(clist, typeocur);
-            amount = amount * c.getSell();
+            amount =convertSell(amount,clist, typeOfCurr);
             if (a.getCurrent_balance() >= amount) {
                 a.setCurrent_balance(a.getCurrent_balance() - amount);
-                paytoaccount(accounts, amount / c.getSell(), id_account2);
+                paytoaccount(a, convertBuy(amount, clist, typeOfCurr), id_account2);
             }
             else
                 System.out.println("nemate dovoljno sredstava na racunu");
@@ -120,18 +133,28 @@ public class User {
     }
 
 
-    public  void payout(double amount, int id_user, int id_account) {
-        for (Account a : this.accounts) {
-            if (a.getId_account() == id_account && a.getId_user() == id_user) {
+    public  void payout(double amount, int id_user, int id_account, Type type, List<CList> clist) {
+         {
+             Account a=FindAccount(accounts, id_account);
+            if ( a.getType().equals(type)) {
                 if(a.getCurrent_balance()>=amount)
                 a.setCurrent_balance(a.getCurrent_balance()-amount);
                 else
                     System.out.println("nemate dovoljno sredstava na racunu");
             }
+            else
+            {
+                CList c=FindCurr(clist, type);
+                amount = convertSell(amount,clist,type);
+                if (a.getCurrent_balance()>=amount) {
+                    paytoaccount(a, amount, id_account);
+                    //a.setCurrent_balance(a.getCurrent_balance()-amount);
+                }
+            }
         }
     }
 
-    public  double check_balace( Account account){
+    public  double checkBalance(Account account){
         return account.getCurrent_balance();
     }
 
