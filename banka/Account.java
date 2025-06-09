@@ -10,6 +10,7 @@ public class Account {
     private User user;
     private Bank bank;
     private Integer id_user;
+
     private Integer id_bank;
 
 

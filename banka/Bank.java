@@ -15,6 +15,7 @@ public class Bank {
         this.name = name;
         this.adress = adress;
         this.c_list = c_list;
+
         this.accounts = accounts;
     }
 
