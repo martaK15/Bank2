@@ -19,6 +19,11 @@ public class Bank {
         this.accounts = accounts;
     }
 
+    public Bank(int idBank, String raiffeisenBank) {
+        this.id_bank = idBank;
+        this.name = raiffeisenBank;
+    }
+
     public Integer getId_bank() {
         return id_bank;
     }

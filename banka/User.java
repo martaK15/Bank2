@@ -20,6 +20,14 @@ public class User {
         this.accounts = accounts;
     }
 
+    public User(int idUser, String ime, String surname, String number, String s) {
+
+
+        this.id_user = idUser;
+        this.name = ime;
+        this.surname = surname;
+    }
+
     public Integer getId_user() {
         return id_user;
     }
@@ -135,7 +143,7 @@ public class User {
 
     public  void payout(double amount, int id_user, int id_account, Type type, List<CList> clist) {
          {
-             Account a=FindAccount(accounts, id_account);
+             Account a= FindAccount(accounts, id_account);
             if ( a.getType().equals(type)) {
                 if(a.getCurrent_balance()>=amount)
                     a.setCurrent_balance(a.getCurrent_balance() - amount);
@@ -154,6 +162,7 @@ public class User {
     }
 
     public  double checkBalance(Account account){
+        System.out.print("Balance on account: "+ account.getId_account() +" is:");
         return account.getCurrent_balance();
     }
 
@@ -165,4 +174,7 @@ public class User {
         return counter;
     }
 
+    public void addAccount(Account a) {
+        this.accounts.add(a);
+    }
 }

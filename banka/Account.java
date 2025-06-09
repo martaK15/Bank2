@@ -12,6 +12,15 @@ public class Account {
     private Integer id_user;
     private Integer id_bank;
 
+    public Account(int idAccount, Type type, double currentBalance, String s, int id_user, int id_account) {
+        this.id_account = idAccount;
+        this.type = type;
+        this.current_balance = currentBalance;
+        this.number = s;
+        this.id_user = id_user;
+        this.id_bank = id_account;
+    }
+
 
     public static void payment(double amount, int id_user, int id_account, List<Account> accounts) {
         for (Account a : accounts) {
