@@ -8,15 +8,15 @@ public class User {
     private String name;
     private String surname;
     private String jmbg;
-    private String adress;
+    private String address;
     private List<Account> accounts = new ArrayList<>();
 
-    public User ( int id_user, String name, String surname, String jmbg, String adress, List<Account> accounts ){
+    public User ( int id_user, String name, String surname, String jmbg, String address, List<Account> accounts ){
         this.id_user = id_user;
         this.name = name;
         this.surname = surname;
         this.jmbg = jmbg;
-        this.adress = adress;
+        this.address = address;
         this.accounts = accounts;
     }
 
@@ -44,8 +44,8 @@ public class User {
         return jmbg;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     public List<Account> getAccounts() {
@@ -56,8 +56,8 @@ public class User {
         this.name = name;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     public void setSurname(String surname) {
@@ -76,92 +76,7 @@ public class User {
         return super.toString();
     }
 
-    public void paytoaccount(Account b, double amount, int id_account2) {
-       // Account b=FindAccount(accounts, id_account2);
-        b.setCurrent_balance(b.getCurrent_balance() + amount);
-    }
-
-
-
-    public Account FindAccount (List<Account> accounts, int id_account) {
-        for (Account a : accounts) {
-            if (a.getId_account() == id_account)
-                return a;
-        }
-        System.out.println("ERROR: Account doesn't exist");
-        return null;
-    }
-
-    public CList FindCurr (List<CList> clist, Type typeocur) {
-
-        for (CList c : clist) {
-            if (c.getType() == typeocur)
-                return c;
-        }
-        System.out.println("ERROR: value doesn't exist");
-        return null;
-
-    }
-
-    public double convertSell(double amount, List<CList> clist, Type typeOfCurr) {
-
-        CList c = FindCurr(clist, typeOfCurr);
-        amount = amount * c.getSell();
-        return amount;
-    }
-
-    public double convertBuy(double amount, List<CList> clist, Type typeOfCurr)
-    {
-
-        CList c = FindCurr(clist, typeOfCurr);
-        amount = amount / c.getBuy();
-        return amount;
-    }
-
-    public  void payment(double amount, int id_account1, int id_account2, List<Account> accounts, Type typeOfCurr, List<CList> clist) {
-        Account a = FindAccount(accounts, id_account1);
-        if( a.getType() == typeOfCurr) {
-            if (a.getCurrent_balance() >= amount) {
-                a.setCurrent_balance(a.getCurrent_balance() - amount);
-            }
-            else
-                System.out.println("nemate dovoljno sredstava na racunu");
-        }
-        else
-        {
-            amount =convertSell(amount,clist, typeOfCurr);
-            if (a.getCurrent_balance() >= amount) {
-                a.setCurrent_balance(a.getCurrent_balance() - amount);
-                paytoaccount(a, convertBuy(amount, clist, typeOfCurr), id_account2);
-            }
-            else
-                System.out.println("nemate dovoljno sredstava na racunu");
-        }
-
-    }
-
-
-    public  void payout(double amount, int id_user, int id_account, Type type, List<CList> clist) {
-         {
-             Account a= FindAccount(accounts, id_account);
-            if ( a.getType().equals(type)) {
-                if(a.getCurrent_balance()>=amount)
-                    a.setCurrent_balance(a.getCurrent_balance() - amount);
-                else
-                    System.out.println("You don't have enough balance");
-            }
-            else
-            {
-                CList c=FindCurr(clist, type);
-                amount = convertSell(amount,clist,type);
-                if (a.getCurrent_balance()>=amount) {
-                    a.setCurrent_balance(a.getCurrent_balance()-amount);
-                }
-            }
-        }
-    }
-
-    public  double checkBalance(Account account){
+    public double checkBalance(Account account){
         System.out.print("Balance on account: "+ account.getId_account() +" is:");
         return account.getCurrent_balance();
     }

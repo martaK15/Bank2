@@ -1,7 +1,9 @@
 package banka;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -26,15 +28,10 @@ public class Main {
         users.add(u1);
         users.add(u2);
 
-        List<CList> cLists = new ArrayList<>();
-        cLists.add(new CList(Type.RSD, 1.0, 1.0));
-        cLists.add(new CList(Type.USD, 110.3, 112.0));
-        cLists.add(new CList(Type.EUR, 117.5, 119.8));
+        Map<String, Double> exchange_rate_list = new HashMap<>();
 
         System.out.println(u1.checkBalance(u1.getAccounts().get(0)));
         System.out.println(u2.checkBalance(u2.getAccounts().get(0)));
-        u1.payout(20,1,1,Type.EUR,cLists);
-        u1.payment(50,1,3,acc,Type.RSD,cLists);
         System.out.println(u1.checkBalance(u1.getAccounts().get(1)));
         System.out.println(u2.checkBalance(u2.getAccounts().get(1)));
 

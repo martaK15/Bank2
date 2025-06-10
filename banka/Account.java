@@ -12,38 +12,25 @@ public class Account {
     private Integer id_user;
     private Integer id_bank;
 
-    public Account(int idAccount, Type type, double currentBalance, String s, int id_user, int id_account) {
+
+    // konstruktor
+    public Account(int idAccount, Type type, double currentBalance, String number, int id_user, int id_account) {
         this.id_account = idAccount;
         this.type = type;
         this.current_balance = currentBalance;
-        this.number = s;
+        this.number = number;
         this.id_user = id_user;
         this.id_bank = id_account;
     }
 
 
-    public static void payment(double amount, int id_user, int id_account, List<Account> accounts) {
-        for (Account a : accounts) {
-            if (a.getId_account() == id_account && a.getId_user() == id_user) {
-                a.setCurrent_balance(a.getCurrent_balance()+amount);
-            }
-        }
-    }
-
-
-    public static void payout(double amount, int id_user, int id_account, List<Account> accounts) {
-        for (Account a : accounts) {
-            if (a.getId_account() == id_account && a.getId_user() == id_user) {
-                a.setCurrent_balance(a.getCurrent_balance()-amount);
-            }
-        }
-    }
-
-    public static double check_balace( Account account){
+    // provera stanja racuna
+    public static double check_balace(Account account) {
         return account.getCurrent_balance();
     }
 
 
+    // geteri i seteri
     public Integer getId_account() {
         return id_account;
     }
@@ -108,6 +95,7 @@ public class Account {
         this.id_bank = id_bank;
     }
 
+    // konstruktor
     public Account(Integer id_account, Type type, Double current_balance, String number, User user, Bank bank) {
         this.id_account = id_account;
         this.type = type;
@@ -116,4 +104,46 @@ public class Account {
         this.user = user;
         this.bank = bank;
     }
+
+    // metoda payment
+    public void payment(Account toAccount, double amount) {
+        double convertedAmount = amount;
+        //proveriti da li se valute jednog i drugog racuna poklapaju
+        if (this.type != toAccount.type) {
+            // ako se valuta ne poklapa, konvertujemo
+            convertedAmount = this.bank.convert(amount, toAccount.type, this.type, this.bank);
+        }
+        // proveravamo da li imamo dovoljno sredstava na racunu
+        if (this.getCurrent_balance() < convertedAmount) {
+            // ako nemamo, ispisujemo poruku
+            //TODO exception custom - NoEnoughFundsException
+            System.out.println("You don't have enough funds in your account");
+            throw new NoEnoughFundsException("You don't have enough funds in your account");
+
+        }
+
+
+        // ako imamo, skidamo pare sa prvog racuna
+        this.setCurrent_balance(current_balance - convertedAmount);
+        // dodajemo drugom racunu
+        toAccount.setCurrent_balance(toAccount.current_balance + amount);
+    }
+
+    // metoda payout
+    public void payout(String number, Type type, Double amount) {
+        // proveriti da li je moj racun u istoj valuti kao i zeljena valuta
+        if (this.type != type) {
+            // prvo konvertovati odredjeni iznos u zeljeni iznos
+            amount = this.bank.convert(amount, this.type, type, this.bank);
+        }
+        if (this.getCurrent_balance() >= amount) {
+            // ako ima, postaviti trenutni balans na oduzetu vrednost
+            this.setCurrent_balance(current_balance - amount);
+        } else {
+            // ako nema, ispisati poruku
+            System.out.println("You don't have enough funds in your account");
+        }
+    }
+
+
 }
