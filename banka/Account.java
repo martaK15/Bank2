@@ -14,13 +14,15 @@ public class Account {
 
 
     // konstruktor
-    public Account(int idAccount, Type type, double currentBalance, String number, int id_user, int id_account) {
+    public Account(int idAccount, Type type, double currentBalance, String number, int id_user, int id_account, Bank bank) {
         this.id_account = idAccount;
         this.type = type;
         this.current_balance = currentBalance;
         this.number = number;
         this.id_user = id_user;
         this.id_bank = id_account;
+        bank.addAccount(this);
+        this.bank = bank;
     }
 
 
@@ -106,7 +108,7 @@ public class Account {
     }
 
     // metoda payment
-    public void payment(Account toAccount, double amount) {
+    public void payment(Account toAccount, double amount) throws NoEnoughFundsException {
         double convertedAmount = amount;
         //proveriti da li se valute jednog i drugog racuna poklapaju
         if (this.type != toAccount.type) {
@@ -116,12 +118,8 @@ public class Account {
         // proveravamo da li imamo dovoljno sredstava na racunu
         if (this.getCurrent_balance() < convertedAmount) {
             // ako nemamo, ispisujemo poruku
-            //TODO exception custom - NoEnoughFundsException
-            System.out.println("You don't have enough funds in your account");
             throw new NoEnoughFundsException("You don't have enough funds in your account");
-
         }
-
 
         // ako imamo, skidamo pare sa prvog racuna
         this.setCurrent_balance(current_balance - convertedAmount);
@@ -130,7 +128,7 @@ public class Account {
     }
 
     // metoda payout
-    public void payout(String number, Type type, Double amount) {
+    public void payout(Type type, Double amount) throws NoEnoughFundsException {
         // proveriti da li je moj racun u istoj valuti kao i zeljena valuta
         if (this.type != type) {
             // prvo konvertovati odredjeni iznos u zeljeni iznos
@@ -141,9 +139,21 @@ public class Account {
             this.setCurrent_balance(current_balance - amount);
         } else {
             // ako nema, ispisati poruku
-            System.out.println("You don't have enough funds in your account");
+            throw new NoEnoughFundsException("You don't have enough funds in your account");
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id_account=" + id_account +
+                ", type=" + type +
+                ", current_balance=" + current_balance +
+                ", number='" + number + '\'' +
+                ", user=" + user +
+                ", bank=" + bank.getName() +
+                ", id_user=" + id_user +
+                ", id_bank=" + id_bank +
+                '}';
+    }
 }

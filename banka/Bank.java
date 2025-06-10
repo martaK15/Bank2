@@ -13,12 +13,11 @@ public class Bank {
     private List<Account> accounts = new ArrayList<>();
 
     // konstruktor
-    public Bank ( int id_bank, String name, String address, Map<String, Double> exchange_rate_list, List<Account> accounts ){
+    public Bank ( int id_bank, String name, String address, Map<String, Double> exchange_rate_list ){
         this.id_bank = id_bank;
         this.name = name;
         this.address = address;
         this.exchange_rate_list = exchange_rate_list;
-        this.accounts = accounts;
     }
 
     public Bank(int id_bank, String name) {
