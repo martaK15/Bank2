@@ -1,5 +1,9 @@
 package banka;
 
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +13,7 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
+/*
         List<User> users = new ArrayList<>();
 
         User user1 = new User(1, "Milan", "Jovanović", "1234567890123", "Beograd, Kralja Petra 10");
@@ -82,8 +86,26 @@ public class Main {
         bank1.changeExchangeRateList("RSD->EUR",0.0085);
         bank1.getExchange_rate_list().put("USD->RSD", 100.5);
         System.out.println(bank1.getExchange_rate_list());
+
+        */
+
         Baza baza=new Baza();
-        baza.setConnection();
+        Connection c =baza.setConnection();
+        String query="SELECT name FROM user WHERE name=?";
+        PreparedStatement ps= baza.runQuery(query);
+        ps.setString(1,"Ana");
+        ResultSet rs=ps.executeQuery();
+        if (!rs.isBeforeFirst()) {
+            System.out.println( "Nema prevoda za izabrani jezik!");
+        }
+
+        while (rs.next()) {
+            String ime= rs.getString("name");
+            System.out.println( ime);
+
+        }
+
+
 
 
     }
