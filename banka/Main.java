@@ -66,14 +66,16 @@ public class Main {
         var acc2 = acc.get(1);
         try {
             acc1.payment(acc2, 10000);
-        } catch (NoEnoughFundsException e) {
+        } catch (NoEnoughFundsException | NegativeAmountException e) {
             System.err.println("You don't have enough funds in your account");
         }
         System.out.println(acc1);
         try {
-            acc1.payout(Type.RSD, 30000.0);
-        } catch (NoEnoughFundsException e, NegativeAmountException ) {
+            acc1.payout();
+        } catch (NoEnoughFundsException | NegativeAmountException e) {
+            System.out.println("Greška u plaćanju: " + e.getMessage());
         }
+
         System.out.println(acc1);
         System.out.println(acc2);
 
