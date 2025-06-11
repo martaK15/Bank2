@@ -108,7 +108,11 @@ public class Account {
     }
 
     // metoda payment
-    public void payment(Account toAccount, double amount) throws NoEnoughFundsException {
+    public void payment(Account toAccount, double amount) throws NoEnoughFundsException, NegativeAmountException{
+        // proveravamo da li je dati iznos negativan broj
+        if ( amount < 0 ){
+            throw new NegativeAmountException("The amount cannot be a negative number");
+        }
         double convertedAmount = amount;
         //proveriti da li se valute jednog i drugog racuna poklapaju
         if (this.type != toAccount.type) {
@@ -128,7 +132,11 @@ public class Account {
     }
 
     // metoda payout
-    public void payout(Type type, Double amount) throws NoEnoughFundsException {
+    public void payout(Type type, Double amount) throws NoEnoughFundsException, NegativeAmountException {
+        // proveravamo da li je dati iznos negativan broj
+        if ( amount < 0 ){
+            throw new NegativeAmountException("The amount cannot be a negative number");
+        }
         // proveriti da li je moj racun u istoj valuti kao i zeljena valuta
         if (this.type != type) {
             // prvo konvertovati odredjeni iznos u zeljeni iznos
