@@ -99,7 +99,7 @@ public class Bank {
 
     public void changeExchangeRateList(String fromTo,double rate) {
 
-        exchange_rate_list.replace(fromTo,rate);
+        exchange_rate_list.put(fromTo,rate);
 
     }
 
