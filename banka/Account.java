@@ -107,7 +107,15 @@ public class Account {
         this.bank = bank;
     }
 
-    // metoda payment
+    // metoda payment javadoc
+
+    /**
+     *
+     * @param toAccount
+     * @param amount
+     * @throws NoEnoughFundsException
+     * @throws NegativeAmountException
+     */
     public void payment(Account toAccount, double amount) throws NoEnoughFundsException, NegativeAmountException{
         // proveravamo da li je dati iznos negativan broj
         if ( amount < 0 ){
@@ -149,6 +157,20 @@ public class Account {
             // ako nema, ispisati poruku
             throw new NoEnoughFundsException("You don't have enough funds in your account");
         }
+    }
+
+    public void payin(Type type, Double amount) throws NegativeAmountException {
+        // proveravamo da li je dati iznos negativan broj
+        if ( amount < 0 ){
+            throw new NegativeAmountException("The amount cannot be a negative number");
+        }
+        // proveriti da li je moj racun u istoj valuti kao i zeljena valuta
+        if (this.type != type) {
+            // prvo konvertovati odredjeni iznos u zeljeni iznos
+            amount = this.bank.convert(amount, this.type, type, this.bank);
+        }
+
+        this.setCurrent_balance(current_balance + amount);
     }
 
     @Override

@@ -21,8 +21,6 @@ public class User {
     }
 
     public User(int idUser, String ime, String surname, String number, String s) {
-
-
         this.id_user = idUser;
         this.name = ime;
         this.surname = surname;
@@ -64,18 +62,15 @@ public class User {
         this.surname = surname;
     }
 
-    public void setJmbg(String jmbg) {
-        this.jmbg = jmbg;
-    }
-
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 
-    public String toString() {
-        return super.toString();
-    }
-
+    /**
+     * opis
+     * @param account asdasd
+     * @return asdasd
+     */
     public double checkBalance(Account account){
         System.out.print("Balance on account: "+ account.getId_account() +" is:");
         return account.getCurrent_balance();
@@ -91,5 +86,17 @@ public class User {
 
     public void addAccount(Account a) {
         this.accounts.add(a);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id_user=" + id_user +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", jmbg='" + jmbg + '\'' +
+                ", address='" + address + '\'' +
+                ", accounts=" + accounts +
+                '}';
     }
 }
