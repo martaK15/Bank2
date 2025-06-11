@@ -9,8 +9,9 @@ public class Bank {
     private Integer id_bank;
     private String name;
     private String address;
-    private Map<String, Double> exchange_rate_list = new HashMap<>();
+    private Map<String, Double> exchange_rate_list=new HashMap<>();
     private List<Account> accounts = new ArrayList<>();
+
 
     // konstruktor
     public Bank ( int id_bank, String name, String address, Map<String, Double> exchange_rate_list ){
@@ -95,6 +96,13 @@ public class Bank {
         accounts.add(account);
         System.out.println("Account successfully added.");
     }
+
+    public void changeExchangeRateList(String fromTo,double rate) {
+
+        exchange_rate_list.replace(fromTo,rate);
+
+    }
+
 
     @Override
     public String toString() {return super.toString();

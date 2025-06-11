@@ -1,5 +1,6 @@
 package banka;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,16 +20,16 @@ public class Main {
         User user6 = new User(6, "Petar", "Marinkovic", "9876543330987", "Subotica, Bulevar Oslobođenja 41");
 
 
-        Map<String, Double> exchangeRate1 = Map.of("RSD->EUR",0.16,"EUR->RSD",116.0);
+        Map<String, Double> exchangeRate1 = new HashMap<>(Map.of("RSD->EUR",0.16,"EUR->RSD",116.0,"USD->RSD",110.0));
         Bank bank1 = new Bank(1, "Banca Intesa", "Glavna 30", exchangeRate1);
 
-        Map<String, Double> exchangeRate2 = Map.of("RSD->EUR",0.17,"EUR->RSD",117.0);
+        Map<String, Double> exchangeRate2 = new HashMap<>(Map.of("RSD->EUR",0.17,"EUR->RSD",117.0));
         Bank bank2 = new Bank(2, "OTP Banka Srbija", "Bulevar Mihaila Pupina 165", exchangeRate2);
 
-        Map<String, Double> exchangeRate3 = Map.of("RSD->EUR",0.18,"EUR->RSD",118.0);
+        Map<String, Double> exchangeRate3 =new HashMap<>( Map.of("RSD->EUR",0.18,"EUR->RSD",118.0));
         Bank bank3 = new Bank(3, "Raiffeisen banka", "Đorđa Stanojevića 16", exchangeRate3);
 
-        Map<String, Double> exchangeRate4 = Map.of("RSD->EUR",0.19,"EUR->RSD",119.0);
+        Map<String, Double> exchangeRate4 = new HashMap<>(Map.of("RSD->EUR",0.19,"EUR->RSD",119.0));
         Bank bank4 = new Bank(4, "UniCredit Bank Srbija", "Ivana Milutinovića 48", exchangeRate4);
 
         List<Account> acc = new ArrayList<>();
@@ -78,6 +79,8 @@ public class Main {
 
         System.out.println(acc1);
         System.out.println(acc2);
+        bank1.changeExchangeRateList("RSD->EUR",0.0085);
+        System.out.println(bank1.getExchange_rate_list());
 
     }
 
