@@ -1,6 +1,6 @@
 package banka;
 
-import java.sql.SQLOutput;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         List<User> users = new ArrayList<>();
 
@@ -80,7 +80,11 @@ public class Main {
         System.out.println(acc1);
         System.out.println(acc2);
         bank1.changeExchangeRateList("RSD->EUR",0.0085);
+        bank1.getExchange_rate_list().put("USD->RSD", 100.5);
         System.out.println(bank1.getExchange_rate_list());
+        Baza baza=new Baza();
+        baza.setConnection();
+
 
     }
 
