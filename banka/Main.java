@@ -32,14 +32,14 @@ public class Main {
         Bank bank4 = new Bank(4, "UniCredit Bank Srbija", "Ivana Milutinovića 48", exchangeRate4);
 
         List<Account> acc = new ArrayList<>();
-        acc.add(new Account(1, Type.RSD, 12000.0, "RS35100000000000000001", 1, 201, bank1));
+        acc.add(new Account(1, Type.RSD , 850.5, "RS35100000000000000001", 1, 201, bank1));
         acc.add(new Account(2, Type.EUR, 850.5, "RS35100000000000000002", 1, 202, bank2));
         acc.add(new Account(3, Type.USD, 430.0, "RS35100000000000000003", 2, 203, bank3));
-        acc.add(new Account(4, Type.RSD, 9800.0, "RS35100000000000000004", 2, 204, bank4));
-        acc.add(new Account(5, Type.RSD, 12000.0, "RS35100000000000000005", 3, 205, bank1));
+        acc.add(new Account(4,Type.RSD, 9800.0, "RS35100000000000000004", 2, 204, bank4));
+        acc.add(new Account(5,Type.RSD, 12000.0, "RS35100000000000000005", 3, 205, bank1));
         acc.add(new Account(6, Type.EUR, 850.5, "RS35100000000000000006", 4, 206, bank2));
         acc.add(new Account(7, Type.USD, 430.0, "RS35100000000000000007", 5, 207, bank3));
-        acc.add(new Account(8, Type.RSD, 9800.0, "RS35100000000000000008", 6, 208, bank4));
+        acc.add(new Account(8,Type.RSD, 9800.0, "RS35100000000000000008", 6, 208, bank4));
 
         user1.addAccount(acc.get(0));
         user1.addAccount(acc.get(1));
@@ -71,7 +71,7 @@ public class Main {
         }
         System.out.println(acc1);
         try {
-            acc1.payout();
+            acc1.payout(Type.RSD, 500.00);
         } catch (NoEnoughFundsException | NegativeAmountException e) {
             System.out.println("Greška u plaćanju: " + e.getMessage());
         }
