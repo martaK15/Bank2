@@ -45,10 +45,10 @@ public class Main {
         user1.addAccount(acc.get(1));
         user2.addAccount(acc.get(0));
         user2.addAccount(acc.get(1));
-        user3.addAccount(acc.get(2));
-        user4.addAccount(acc.get(3));
-        user5.addAccount(acc.get(4));
-        user6.addAccount(acc.get(5));
+        user3.addAccount(acc.get(0));
+        user4.addAccount(acc.get(0));
+        user5.addAccount(acc.get(0));
+        user6.addAccount(acc.get(0));
 
         users.add(user1);
         users.add(user2);
@@ -70,7 +70,10 @@ public class Main {
             System.err.println("You don't have enough funds in your account");
         }
         System.out.println(acc1);
-        acc1.payout(Type.RSD, 30000.0);
+        try {
+            acc1.payout(Type.RSD, 30000.0);
+        } catch (NoEnoughFundsException e, NegativeAmountException ) {
+        }
         System.out.println(acc1);
         System.out.println(acc2);
 
