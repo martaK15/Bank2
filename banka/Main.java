@@ -109,7 +109,9 @@ public class Main {
         instertIntoBank("NLB","Bulevar Milutina Milankovica");
         deleteFromBank("bank","Aik");
         insertIntoExchangeRateList("RSD->USD",3,1.30);
-        //Baza baza=new Baza();
+        instertIntoBank("Aik","Bulevar Despota Stefana");
+       // instertIntoUser("Marta", "Kiso", "1507003710000",
+                //Baza baza=new Baza();
         //Connection c =baza.setConnection();
 
         /*if (!rs.isBeforeFirst()) {
