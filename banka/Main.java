@@ -34,7 +34,7 @@ public class Main {
         ps.executeUpdate();
     }
 
-    public static void instertIntoUser(String name, String surname, String jmbg, String address) throws SQLException, ClassNotFoundException {
+    public static void insertIntoUser(String name, String surname, String jmbg, String address) throws SQLException, ClassNotFoundException {
 
         Baza baza=new Baza();
         try {
@@ -58,11 +58,37 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void insertIntoAccount(Double current_balance, String number, Integer id_user, Integer id_bank, Enum type) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="insert into user ( current_balance, number, id_user, id_bank, type ) values ( ?, ?, ?, ?, ?)";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ps.setDouble(1,current_balance);
+        ps.setString(2,number);
+        ps.setInt(3,id_user);
+        ps.setInt(4,id_bank);
+        ps.setString(5,type.name());
+
+        ps.executeUpdate();
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         instertIntoBank("Aik","Bulevar Despota Stefana");
 
-        instertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
+        insertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
         //Baza baza=new Baza();
         //Connection c =baza.setConnection();
 
