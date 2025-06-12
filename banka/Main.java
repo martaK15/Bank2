@@ -34,6 +34,74 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void deleteFromBank(String nameTable, String nameBank) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="DELETE FROM bank WHERE name=?";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //ps.setString(1,nameTable);
+        ps.setString(1,nameBank);
+        ps.executeUpdate();
+    }
+
+
+    public static void deleteFromExchangeRateList( String key, int id_bank) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="DELETE FROM ? WHERE key_=? AND id_bank=?";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ps.setString(1,key);
+        ps.setInt(2,id_bank);
+        ps.executeUpdate();
+    }
+
+    public static void insertIntoExchangeRateList( String key, int id_bank, double rate) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query=" insert into exchange_rate_list (key_,value_,id_bank) values (?,?,?)";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ps.setString(1,key);
+        ps.setDouble(2,rate);
+        ps.setInt(3,id_bank);
+        ps.executeUpdate();
+    }
+
     public static void insertIntoUser(String name, String surname, String jmbg, String address) throws SQLException, ClassNotFoundException {
 
         Baza baza=new Baza();
@@ -86,6 +154,9 @@ public class Main {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
+        instertIntoBank("NLB","Bulevar Milutina Milankovica");
+        deleteFromBank("bank","Aik");
+        insertIntoExchangeRateList("RSD->USD",3,1.30);
         instertIntoBank("Aik","Bulevar Despota Stefana");
 
         insertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
