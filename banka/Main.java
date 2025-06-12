@@ -12,7 +12,45 @@ import java.util.Map;
 
 public class Main {
 
+    public static void instertIntoBank(String name, String address) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="insert into bank (name,address) values (?,?)";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ps.setString(1,name);
+        ps.setString(2,address);
+        ps.executeUpdate();
+    }
+
+
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+        instertIntoBank("Aik","Bulevar Despota Stefana");
+        //Baza baza=new Baza();
+        //Connection c =baza.setConnection();
+
+        /*if (!rs.isBeforeFirst()) {
+            System.out.println( "Nema prevoda za izabrani jezik!");
+        }
+
+        while (rs.next()) {
+            String ime= rs.getString("name");
+            System.out.println( ime);
+
+        }
 /*
         List<User> users = new ArrayList<>();
 
@@ -87,7 +125,7 @@ public class Main {
         bank1.getExchange_rate_list().put("USD->RSD", 100.5);
         System.out.println(bank1.getExchange_rate_list());
 
-        */
+
 
         Baza baza=new Baza();
         Connection c =baza.setConnection();
@@ -107,7 +145,7 @@ public class Main {
 
 
 
-
+*/
     }
 
 }
