@@ -34,11 +34,35 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void instertIntoUser(String name, String surname, String jmbg, String address) throws SQLException, ClassNotFoundException {
 
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="insert into user ( name, surname, jmbg, address ) values ( ?, ?, ?, ?)";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ps.setString(1,name);
+        ps.setString(2,surname);
+        ps.setString(3,jmbg);
+        ps.setString(4,address);
+        ps.executeUpdate();
+    }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         instertIntoBank("Aik","Bulevar Despota Stefana");
+
+        instertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
         //Baza baza=new Baza();
         //Connection c =baza.setConnection();
 
