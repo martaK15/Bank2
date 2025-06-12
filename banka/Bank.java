@@ -26,6 +26,12 @@ public class Bank {
         this.name = name;
     }
 
+    public Bank(int idBank, String name, String address) {
+        this.id_bank = idBank;
+        this.name = name;
+        this.address = address;
+    }
+
     // geteri
     public Integer getId_bank() {
         return id_bank;
@@ -103,8 +109,14 @@ public class Bank {
 
     }
 
-
     @Override
-    public String toString() {return super.toString();
+    public String toString() {
+        return "Bank{" +
+                "id_bank=" + id_bank +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", exchange_rate_list=" + exchange_rate_list +
+                ", accounts=" + accounts +
+                '}';
     }
 }
