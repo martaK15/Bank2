@@ -152,11 +152,35 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void deleteFromUser(String jmbg) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="DELETE FROM bank WHERE jmbg=?";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //ps.setString(1,nameTable);
+        ps.setString(1,jmbg);
+        ps.executeUpdate();
+    }
+
+    // napraviti deleteFromAccount
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         instertIntoBank("NLB","Bulevar Milutina Milankovica");
         deleteFromBank("bank","Aik");
-        insertIntoExchangeRateList("RSD->USD",3,1.30);
+        insertIntoExchangeRateList("RSD->USD",4,1.30);
         instertIntoBank("Aik","Bulevar Despota Stefana");
 
         insertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
