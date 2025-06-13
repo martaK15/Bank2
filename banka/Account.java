@@ -25,6 +25,16 @@ public class Account {
         this.bank = bank;
     }
 
+    public Account(int idAccount, Type type, double currentBalance, String number, int idUser, int idBank) {
+            this.id_account = idAccount;
+            this.type = type;
+            this.current_balance = currentBalance;
+            this.number = number;
+            this.id_user = idUser;
+            this.id_bank = idBank;
+           // bank.addAccount(this);
+    }
+
 
     // provera stanja racuna
     public static double check_balace(Account account) {

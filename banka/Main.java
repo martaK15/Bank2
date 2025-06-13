@@ -142,7 +142,7 @@ public class Main {
                 String jmbg = rs.getString("jmbg");
                 String address = rs.getString("address");
                 int id_user = rs.getInt("id_user");
-                User u=new User(id_user,name,surname,jmbg,address);
+                User u=new User(id_user,name,surname,address,jmbg);
                 users.add(u);
 
             }
@@ -178,15 +178,78 @@ public class Main {
 
     }
 
-    public static void insertIntoAccount(Double current_balance, String number, Integer id_user, Integer id_bank, Enum type) throws SQLException, ClassNotFoundException {
+    public static void fillAccounts(List<Account> accounts) throws SQLException {
+        Baza baza = new Baza();
+
+        try {
+            Connection c = baza.setConnection();
+            String query = "SELECT * FROM account";
+            PreparedStatement ps = c.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst())
+                System.out.println("There are no accounts");
+            while (rs.next()) {
+                String number = rs.getString("number");
+                String typeStr = rs.getString("type");
+                Type type = Type.valueOf(typeStr);
+                int id_bank = rs.getInt("id_bank");
+                int id_account = rs.getInt("id_account");
+                int id_user = rs.getInt("id_user");
+                double current_balance = rs.getDouble("current_balance");
+                Account a=new Account(id_account,type,current_balance,number,id_user,id_bank);
+                accounts.add(a);
+
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void fillExchangeRateList( List<Bank> banks) throws SQLException {
+        Baza baza = new Baza();
+        try {
+            Connection c = baza.setConnection();
+            String query = "SELECT * FROM exchange_rate_list";
+            PreparedStatement ps = c.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst())
+                System.out.println("There are no exchange rate lists");
+            while (rs.next()) {
+                String key_ = rs.getString("key_");
+                Double value_ = rs.getDouble("value_");
+                int id_bank = rs.getInt("id_bank");
+                for( Bank b : banks){
+                    if(b.getId_bank()==id_bank){
+                        b.getExchange_rate_list().put(key_,value_);
+                    }
+                }
+
+
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void insertIntoAccount(Double current_balance,
+                                         String number,
+                                         Integer id_user,
+                                         Integer id_bank,
+                                         Type type,
+                                         String jmbg) throws SQLException, ClassNotFoundException {
 
         Baza baza=new Baza();
         try {
             Connection c =baza.setConnection();
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            System.err.println("Error while connecting to database");
+            return;
         }
-        String query="insert into user ( current_balance, number, id_user, id_bank, type ) values ( ?, ?, ?, ?, ?)";
+        String query="insert into account (current_balance, number, id_user, id_bank, type,jmbg ) values ( ?, ?, ?, ?, ?,?)";
         PreparedStatement ps= null;
         try {
             ps = baza.runQuery(query);
@@ -200,7 +263,7 @@ public class Main {
         ps.setInt(3,id_user);
         ps.setInt(4,id_bank);
         ps.setString(5,type.name());
-
+        ps.setString(6,jmbg);
         ps.executeUpdate();
     }
 
@@ -248,24 +311,24 @@ public class Main {
         ps.executeUpdate();
     }
 
+    //napraviti delete from account
 
-
-    // napraviti deleteFromAccount
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
 
-        instertIntoBank("NLB","Bulevar Milutina Milankovica");
-        deleteFromBank("bank","Aik");
-        insertIntoExchangeRateList("RSD->USD",4,1.30);
-        instertIntoBank("Aik","Bulevar Despota Stefana");
+       // instertIntoBank("NLB","Bulevar Milutina Milankovica");
+       // deleteFromBank("bank","Aik");
+       // insertIntoExchangeRateList("RSD->USD",4,1.30);
+       // instertIntoBank("Aik","Bulevar Despota Stefana");
 
-        insertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
+       insertIntoUser("Marta", "Kiso", "150700371000", "Bulevar Arsenija Carnojevica");
 
         //instertIntoBank("NLB","Bulevar Milutina Milankovica");
         //deleteFromBank("bank","Aik");
         //insertIntoExchangeRateList("RSD->USD",3,1.30);
         //instertIntoBank("Aik","Bulevar Despota Stefana");
+
         List<User> users = new ArrayList<>();
         fillUsers(users);
             for(User u:users)
@@ -275,6 +338,17 @@ public class Main {
             for(Bank b:banks){
                 System.out.println(b);
             }
+            List<Account> accounts = new ArrayList<>();
+            fillAccounts(accounts);
+            for(Account a:accounts){
+                System.out.println(a);
+            }
+           fillExchangeRateList(banks);
+            for(Bank b:banks){
+                System.out.println(b.getExchange_rate_list());
+            }
+        System.out.println("JMBG " + users.get(0).getJmbg());
+        insertIntoAccount(.0,"RS30389428648396",users.get(0).getId_user(),3,Type.EUR,users.get(0).getJmbg());
 
         //Baza baza=new Baza();
         //Connection c =baza.setConnection();

@@ -103,9 +103,16 @@ public class Bank {
         System.out.println("Account successfully added.");
     }
 
+    public void changeExchangeRateList(Baza baza,  String key_) {
+
+
+
+
+    }
     public void changeExchangeRateList(String fromTo,double rate) {
 
         exchange_rate_list.put(fromTo,rate);
+
 
     }
 
