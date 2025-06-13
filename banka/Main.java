@@ -126,6 +126,58 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void fillUsers(List<User> users) throws SQLException {
+        Baza baza = new Baza();
+
+        try {
+            Connection c = baza.setConnection();
+            String query = "SELECT * FROM user";
+            PreparedStatement ps = c.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst())
+                System.out.println("There is no user");
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                String jmbg = rs.getString("jmbg");
+                String address = rs.getString("address");
+                int id_user = rs.getInt("id_user");
+                User u=new User(id_user,name,surname,jmbg,address);
+                users.add(u);
+
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void fillBanks(List<Bank> banks) throws SQLException {
+        Baza baza = new Baza();
+
+        try {
+            Connection c = baza.setConnection();
+            String query = "SELECT * FROM bank";
+            PreparedStatement ps = c.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst())
+                System.out.println("There are no banks");
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String address = rs.getString("address");
+                int id_bank = rs.getInt("id_bank");
+                Bank b=new Bank(id_bank,name,address);
+                banks.add(b);
+
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void insertIntoAccount(Double current_balance, String number, Integer id_user, Integer id_bank, Enum type) throws SQLException, ClassNotFoundException {
 
         Baza baza=new Baza();
@@ -174,9 +226,34 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void deleteFromAccount(String number) throws SQLException, ClassNotFoundException {
+
+        Baza baza=new Baza();
+        try {
+            Connection c =baza.setConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String query="DELETE FROM bank WHERE jmbg=?";
+        PreparedStatement ps= null;
+        try {
+            ps = baza.runQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //ps.setString(1,nameTable);
+        ps.setString(1,number);
+        ps.executeUpdate();
+    }
+
+
+
     // napraviti deleteFromAccount
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
 
         instertIntoBank("NLB","Bulevar Milutina Milankovica");
         deleteFromBank("bank","Aik");
@@ -184,6 +261,21 @@ public class Main {
         instertIntoBank("Aik","Bulevar Despota Stefana");
 
         insertIntoUser("Marta", "Kiso", "1507003710000", "Bulevar Arsenija Carnojevica");
+
+        //instertIntoBank("NLB","Bulevar Milutina Milankovica");
+        //deleteFromBank("bank","Aik");
+        //insertIntoExchangeRateList("RSD->USD",3,1.30);
+        //instertIntoBank("Aik","Bulevar Despota Stefana");
+        List<User> users = new ArrayList<>();
+        fillUsers(users);
+            for(User u:users)
+                System.out.println(u);
+            List<Bank> banks = new ArrayList<>();
+            fillBanks(banks);
+            for(Bank b:banks){
+                System.out.println(b);
+            }
+
         //Baza baza=new Baza();
         //Connection c =baza.setConnection();
 
@@ -205,7 +297,6 @@ public class Main {
         User user4 = new User(4, "Lazar", "Simic", "9876543210000", "Novi Sad, Bulevar Oslobođenja 4");
         User user5 = new User(5, "Nevena", "Stankovic", "1234567890111", "Beograd, Kralja Petra 13");
         User user6 = new User(6, "Petar", "Marinkovic", "9876543330987", "Subotica, Bulevar Oslobođenja 41");
-
 
         Map<String, Double> exchangeRate1 = new HashMap<>(Map.of("RSD->EUR",0.16,"EUR->RSD",116.0,"USD->RSD",110.0));
         Bank bank1 = new Bank(1, "Banca Intesa", "Glavna 30", exchangeRate1);

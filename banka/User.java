@@ -20,10 +20,12 @@ public class User {
         this.accounts = accounts;
     }
 
-    public User(int idUser, String ime, String surname, String number, String s) {
+    public User(int idUser, String ime, String surname, String address, String jmbg) {
         this.id_user = idUser;
         this.name = ime;
         this.surname = surname;
+        this.jmbg = jmbg;
+        this.address = address;
     }
 
     public Integer getId_user() {
