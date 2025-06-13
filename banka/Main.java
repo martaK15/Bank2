@@ -349,6 +349,7 @@ public class Main {
             }
         System.out.println("JMBG " + users.get(0).getJmbg());
         insertIntoAccount(.0,"RS30389428648396",users.get(0).getId_user(),3,Type.EUR,users.get(0).getJmbg());
+        banks.get(0).changeExchangeRateList("RSD->EUR",111.0);
 
         //Baza baza=new Baza();
         //Connection c =baza.setConnection();

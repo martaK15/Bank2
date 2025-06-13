@@ -1,5 +1,9 @@
 package banka;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,15 +107,42 @@ public class Bank {
         System.out.println("Account successfully added.");
     }
 
-    public void changeExchangeRateList(Baza baza,  String key_) {
+    public void changeExchangeRateListBaza(Baza baza,  String key_, int id_bank, double newRate) throws SQLException, ClassNotFoundException {
+
+        Connection c = null;
+        try {
+            c = baza.setConnection();
+            String query = "UPDATE exchange_rate_list SET value_=? WHERE id_bank=? AND key_=?";
+            PreparedStatement ps = c.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst())
+                System.out.println("There is no rate like that");
+            ps.setDouble(1, newRate);
+            ps.setInt(2,id_bank);
+            ps.setString(3,key_);
+            ps.executeQuery();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
 
 
-    }
+        }
+
     public void changeExchangeRateList(String fromTo,double rate) {
 
+        Baza baza=new Baza();
         exchange_rate_list.put(fromTo,rate);
+        try {
+            changeExchangeRateListBaza(baza,fromTo,id_bank,rate);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
